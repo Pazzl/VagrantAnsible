@@ -1,0 +1,18 @@
+---
+# tasks file for provision/roles/tomcat
+- name: Install JDK8, Tomcat9 and Tomcat9-admin
+  apt:
+    pkg: "{{ packages }}"
+    state: latest
+    update_cache: yes
+
+- name: Push Tomcat9-admin user for Jenkins CI/CD
+  template:
+    src: "{{ role_path }}/templates/tomcat-users.xml.j2"
+    dest: "{{ tomcat_config_root }}/tomcat-users.xml"
+    mode: "0644"
+
+- name: Restarting Tomcat
+  command: echo "Restarting Tomcat"
+  notify:
+      - restart tomcat

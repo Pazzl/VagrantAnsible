@@ -1,0 +1,6 @@
+---
+# handlers file for provision/roles/nginx
+- name: Restart Nginx
+  service:
+    name: "{{ service }}"
+    state: restarted

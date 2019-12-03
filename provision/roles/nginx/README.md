@@ -1,0 +1,2 @@
+Nginx proxy server role
+=========

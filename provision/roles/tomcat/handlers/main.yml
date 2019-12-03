@@ -1,0 +1,6 @@
+---
+# handlers file for provision/roles/tomcat
+- name: restart tomcat
+  service:
+    name: "{{ service }}"
+    state: restarted

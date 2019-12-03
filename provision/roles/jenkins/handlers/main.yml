@@ -1,0 +1,19 @@
+---
+# handlers file for provision/roles/jenkins
+- name: Slurp Jenkins initial admin password file
+  slurp:
+    src: "{{ jenkins_initial_passwd_file }}"
+  register: jenkins_initial_admin_passwd
+  listen: "Get Jenkins initial admin password"
+
+- name: Print Jenkins initial admin password
+  debug:
+    msg: "{{ jenkins_initial_admin_passwd['content'] | b64decode }}"
+  listen: "Get Jenkins initial admin password"
+
+- name: Save Jenkins initial admin password
+  fetch:
+    src: "{{ jenkins_initial_passwd_file }}"
+    dest: "{{ jenkins_initial_passwd_file_local }}"
+    flat: true
+  listen: "Get Jenkins initial admin password"

@@ -1,0 +1,11 @@
+---
+# vars file for provision/roles/mysql
+packages: ["mysql-server", "python-pymysql", "python3-pymysql", "python-apt"]
+db_name: "test"
+db_user: "ffbird"
+db_pass: "{{ lookup('file', '../../db_secret') }}"
+db_dump_file: "db.sql"
+mysql_root_passwd: "{{ lookup('file', '../../mysql_root_secret') }}"
+mysql_config_path: "/etc/mysql/mysql.conf.d"
+mysql_socket_path: "/var/run/mysqld/mysqld.sock"
+service: "mysql"

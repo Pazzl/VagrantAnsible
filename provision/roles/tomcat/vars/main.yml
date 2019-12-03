@@ -1,0 +1,6 @@
+---
+# vars file for provision/roles/tomcat
+packages: ["openjdk-8-jdk", "tomcat9", "tomcat9-admin"]
+tomcat_config_root: /etc/tomcat9
+jenkins_user_secret: "{{ lookup('file', '../../jenkins_secret') }}"
+service: tomcat9

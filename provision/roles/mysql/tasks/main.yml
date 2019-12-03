@@ -1,0 +1,66 @@
+---
+# tasks file for provision/roles/mysql
+- name: Install MySQL server package
+  apt:
+    pkg: "{{ packages }}"
+    state: latest
+    update_cache: yes
+
+- name: Push MySQL conf file
+  copy:
+    src: "{{ role_path }}/files/mysqld.cnf"
+    dest: "{{ mysql_config_path }}/mysqld.cnf"
+
+- name: Restart MySQL service
+  service:
+    name: "{{ service }}"
+    state: restarted
+
+- name: Set root user password
+  mysql_user:
+    name: "root"
+    host: "{{ item }}"
+    password: "{{ mysql_root_passwd }}"
+    check_implicit_admin: yes
+    login_host: "localhost"
+    login_user: "root"
+    login_password: ""
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+  with_items:
+    - "{{ inventory_hostname }}"
+    - 127.0.0.1
+    - localhost
+
+- name: Copy .my.cnf file with root password credentials
+  template:
+    src: "{{ role_path }}/templates/my.cnf.j2"
+    dest: ~/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Copy DB dump file
+  copy:
+    src: "../../{{ db_dump_file }}"
+    dest: /tmp
+
+- name: Create DB
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+  register: db_present
+
+- name: Create DB user
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_pass }}"
+    priv: "{{ db_name }}.*:ALL"
+    state: present
+
+- name: Restore DB
+  mysql_db:
+    name: "{{ db_name }}"
+    state: import
+    target: "/tmp/{{ db_dump_file }}"
+  when: db_present is not succeeded

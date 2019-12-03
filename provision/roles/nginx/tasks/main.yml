@@ -1,0 +1,24 @@
+---
+# tasks file for provision/roles/nginx
+- name: Install Nginx
+  apt:
+    pkg: "{{ package }}"
+    state: latest
+    update_cache: yes
+
+- name: Push Nginx config file
+  template:
+    src: "{{ role_path }}/templates/default.j2"
+    dest: "{{ config_root }}/default"
+    mode: "0644"
+
+- name: Check Nginx config file
+  command: "nginx -t"
+  register: result
+  ignore_errors: true
+
+- name: Restarting Nginx
+  command: echo "Restarting Nginx..."
+  notify:
+    - Restart Nginx
+  when: result is succeeded

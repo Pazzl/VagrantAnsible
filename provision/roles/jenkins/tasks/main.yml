@@ -1,0 +1,40 @@
+---
+# tasks file for provision/roles/jenkins
+- name: Add the Debian repository key of Jenkins
+  apt_key:
+    url: "{{ jenkins_key_url }}"
+    state: present
+  register: result_add_key
+
+- name: Add the Debian package repository of Jenkins
+  apt_repository:
+    repo: "{{ jenkins_apt_repo }}"
+  when: result_add_key is succeeded
+  register: result_add_repo
+
+- name: Install JDK
+  apt:
+    pkg: "{{ jdk_package }}"
+    state: latest
+    update_cache: yes
+  when: result_add_key is succeeded and result_add_repo is succeeded
+  register: result_java_installed
+
+- name: Install Jenkins
+  apt:
+    pkg: "{{ jenkins_package }}"
+    state: latest
+    update_cache: yes
+  when: result_add_key is succeeded and result_add_repo is succeeded and result_java_installed is succeeded
+  register: result_jenkins_installed
+
+- name: Check if Jenkins is running
+  service:
+    name: "{{ service }}"
+    enabled: true
+    state: started
+  when: result_jenkins_installed is succeeded
+
+- name: Get Jenkins initial admin password
+  command: echo "Get Jenkins initial admin password"
+  notify: "Get Jenkins initial admin password"

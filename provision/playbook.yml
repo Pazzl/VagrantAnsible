@@ -1,0 +1,25 @@
+---
+- hosts: proxy
+  gather_facts: yes
+  become: true
+  roles:
+    - nginx
+
+- hosts: tomcat
+  gather_facts: yes
+  become: true
+  roles:
+    - tomcat
+
+- hosts: db
+  gather_facts: yes
+  become: true
+  become_user: root
+  roles:
+    - mysql
+
+- hosts: cicd
+  gather_facts: yes
+  become: true
+  roles:
+    - jenkins

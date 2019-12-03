@@ -1,0 +1,10 @@
+---
+# vars file for provision/roles/nginx
+tomcat1_ip_address: 192.168.200.12
+tomcat1_port: 8080
+tomcat2_ip_address: 192.168.200.13
+tomcat2_port: 8080
+external_ip_address: 46.4.53.205
+config_root: /etc/nginx/sites-available
+package: nginx
+service: nginx
