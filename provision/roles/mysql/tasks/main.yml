@@ -42,8 +42,8 @@
 
 - name: Copy DB dump file
   copy:
-    src: "../../{{ db_dump_file }}"
-    dest: /tmp
+    src: "{{ role_path }}/files/{{ db_dump_file }}"
+    dest: "/tmp/{{ db_dump_file }}"
 
 - name: Create DB
   mysql_db:
@@ -63,4 +63,4 @@
     name: "{{ db_name }}"
     state: import
     target: "/tmp/{{ db_dump_file }}"
-  when: db_present is not succeeded
+  when: db_present.changed
