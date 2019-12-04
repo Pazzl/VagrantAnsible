@@ -53,6 +53,7 @@
 
 - name: Create DB user
   mysql_user:
+    host: "%"
     name: "{{ db_user }}"
     password: "{{ db_pass }}"
     priv: "{{ db_name }}.*:ALL"

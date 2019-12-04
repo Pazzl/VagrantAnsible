@@ -3,7 +3,7 @@
 jenkins_key_url: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
 jenkins_apt_repo: "deb https://pkg.jenkins.io/debian-stable binary/"
 jdk_package: "openjdk-8-jdk"
-jenkins_package: "jenkins"
+jenkins_package: ["jenkins", "maven"]
 service: "jenkins"
 jenkins_initial_passwd_file: "/var/lib/jenkins/secrets/initialAdminPassword"
 jenkins_initial_passwd_file_local: "../../initialAdminPassword"
