@@ -75,3 +75,5 @@ Then click again on **Add post-build action** and select **Deploy war/ear to a c
 The same way you have to add another container to deploy WAR to second tomcat instance. Credentials are the same at both Tomcat instances, so you have no need to add it again.
 
 Click **Save** to cmplete you Build job.
+
+Now you can manually run the job by clicking **Build Now**
