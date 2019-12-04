@@ -52,3 +52,28 @@ $ cat ../initialAdminPassword
 You can see initial password to unlock your Jenkins installation.
 
 So, unlock it and Install sudgested plugins. After installation complete please create your first admin user. Then verify that Jenkins URL is valid.
+
+To deploy **WAR** packages form Jenkins to Tomcat we need to install several plugins. Go to **Manage Jenkins**->**Manage plugins**. Select the **Available** tab, locate the **Deploy to container** plugin and install it.
+
+Now you are ready to create a first job.
+Click on **New Item**, enter an item name, select **Freestyle project** and click **Ok**
+
+At **General** tab select **GitHub project** and enter GitHub URL of the project.
+
+At **Source Code Management** tab select **Git** options and enter **Repository URL**.
+
+At **Build Triggers** tab select **GitHub hook trigger for GITScm polling**
+
+At **Build Environment** tab select **Delete workspace before build starts** and **Add timestamps to the Console Output**
+
+At **Build** tab click on **Add Build Step** and select **Invoke top-level Maven targets**. In **Goals** enter ```clean compile package```
+
+At **Post-build Actions** tab click on **Add post-build action** and select **Archive the atifacts**. At **Files to archive** enter ```**/*.war```
+
+Then click again on **Add post-build action** and select **Deploy war/ear to a container**. At **WAR/EAR files** enter ```**/*.war```, at **Context path** enter ```/```. Then click on **Add Container*** and select **Tomcat 9.x Remote**. At **Tomcat URL** enter URL of first Tomcat server with tomcat port (for example ```http://192.168.200.12:8080```). Then at **Credentials** click **Add** and select **Jenkins**. In the new window called **Jenkins Credentials Provider: Jenkins** enter **Username** ```jenkins``` and **Password** the you write in preparation step to file **jenkins_secret**. Click **Add** and then select it from drop-down list.
+
+The same way you have to add another container to deploy WAR to second tomcat instance. Credentials are the same at both Tomcat instances, so you have no need to add it again.
+
+Click **Save** to cmplete you Build job.
+
+Now you can manually run the job by clicking **Build Now**
