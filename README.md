@@ -1,5 +1,5 @@
 # Vagrant and Ansible
-Create testing environment with Nginx as load balancer, two Tomcat instances as web servers, MySQL instance as database server and Jenkins instance as CI/CD server to deploy [Java](https://github.com/Pazzl/JavaSampleApp) application.
+Create testing environment with Nginx as load balancer, two Tomcat instances as web servers, MySQL instance as database server and Jenkins instance as CI/CD server to deploy [Java application](https://github.com/Pazzl/JavaSampleApp).
 
 As VMware ESXi are using as virtualization environment, **vagrant-vmware-esxi** plugin for Vagrant and VMware **ovftool** have to be installed.
 
