@@ -33,8 +33,22 @@ $ sudo apt install ansible
 
 So the preparation part is over and now we are ready to start with setting up variables for deploying and provisioning.
 * First of all you have to add user to ESXi host and grant it to access via ssh (You can easily Google how to do this)
-* In the folder that contains this repo you have to create several files:
+* Then you have to change IP address for ESXi host at **Vagrantfile**
+* In the folder that contains this repo folder you have to create several files:
   * **esxi_vagrant_secret**: Password for user vagrant to access ESXi host via ssh
   * **jenkins_secret**: Password for user jenkins to access Tomcat instance from Jenkins CI/CD to deploy WAR package
   * **db_secret**: Password for user to access the application's database
   * **mysql_root_secret**: Password for root user to set up
+
+Now we are ready to create and provision all environment. Change folder to have **Vagrantfile** in it. Then you have to
+```
+$ vagrant up
+```
+After all is done you have to first configure Jenkins.
+Please look the contents of the file **initialAdminPassword**
+```
+$ cat ../initialAdminPassword
+```
+You can see initial password to unlock your Jenkins installation.
+
+So, unlock it and Install sudgested plugins. After installation complete please create your first admin user. Then verify that Jenkins URL is valid.
